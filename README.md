@@ -21,16 +21,33 @@ sudo docker run -d -P --name devbox centos6-devbox
 ssh -p $(sudo docker inspect devbox | sed -rn 's/"HostPort":\s"(.*)"/\1/p') docker@localhost
 ```
 
-### Stopping down your container
+### Stopping containers
+* Stopping the devbox container
 ```
 sudo docker stop devbox
 ```
-If you didn't name your container devbox or don't know the container name:
+* If you didn't name your container devbox or don't know the container name,
+stop the first one.
 ```
 sudo docker stop $(sudo docker ps | awk '{if (NR>1&&NR<3) {print $1}}')
 ```
+* To stop all containers
+```
+sudo docker stop $(sudo docker ps | awk '{if (NR>1) {print $1}}')
+```
 
-### Destroying your container
+### Destroying containers
+* Destroying the devbox container
 ```
 sudo docker rm devbox
+```
+
+### Removing this image
+* Destroying the devbox image
+```
+sudo docker rmi centos6-devbox
+```
+* To remove all images
+```
+sudo docker rmi $(sudo docker images | awk '{if (NR>1) {print $3}}')
 ```
